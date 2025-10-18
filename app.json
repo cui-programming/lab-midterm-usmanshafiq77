@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "MAD Midterm Tasbih",
+    "slug": "mad-midterm-tasbih",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "icon": null,
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "extra": {}
+  }
+}
