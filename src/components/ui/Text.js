@@ -1,5 +1,9 @@
 import React from 'react';
 import { Text as RNText } from 'react-native';
+// src/components/ui/Text.js
+import { Text as RNText } from 'react-native';
+export default RNText;
+
 
 /**
  * UI/Text
