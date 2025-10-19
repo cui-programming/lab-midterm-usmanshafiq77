@@ -1,19 +1,22 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { styles } from './src/styles/styles';
+import React, { useState } from 'react';
+import { View, ScrollView } from './src/components/ui';
 import AboutMe from './src/components/custom/AboutMe';
+import TeacherMessage from './src/components/custom/TeacherMessage';
 import TasbihList from './src/components/custom/TasbihList';
-// import TeacherMessage from './src/components/custom/TeacherMessage'; // Students create this
 import SearchAndAdd from './src/components/custom/SearchAndAdd';
-import { STUDENT_NAME, REG_NO } from './src/config/student';
+import { initialAzkaar } from './src/data/azkaar';
 
 export default function App() {
+  const [items, setItems] = useState(initialAzkaar);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <AboutMe name={STUDENT_NAME} regNo={REG_NO} />
-      {/* TODO: after creating the custom/TeacherMessage component, render it here */}
-      <TasbihList />
-      <SearchAndAdd />
+    <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 12 }}>
+      <View>
+        <AboutMe />
+        <TeacherMessage message="Hello teacher — I updated my student config." />
+        <SearchAndAdd items={items} setItems={setItems} />
+        <TasbihList items={items} setItems={setItems} />
+      </View>
     </ScrollView>
   );
 }
