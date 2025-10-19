@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
-import { View, FlatList, Text } from 'react-native'; // You may switch Text to ui/Text later
-import { styles } from '../../styles/styles';
-import { initialAzkaar } from '../../data/azkaar';
+import React from 'react';
+import { FlatList } from 'react-native';
+import { View, Text, Button } from '../ui';
+import styles from '../../styles/styles';
 
-/**
- * Custom/TasbihList
- * Renders a FlatList of azkaar with their counts.
- * NOTE: Increment/Decrement buttons are intentionally NOT implemented.
- * Students will add + and - controls using UI/Button and update state accordingly.
- */
-export default function TasbihList() {
-  const [items, setItems] = useState(initialAzkaar);
+export default function TasbihList({ items, setItems }) {
 
-  // HINT ONLY (do not complete): you will need handlers like increment(id) / decrement(id)
+  const increment = (id) => {
+    setItems(prev =>
+      prev.map(item => item.id === id ? { ...item, count: item.count + 1 } : item)
+    );
+  };
+
+  const decrement = (id) => {
+    setItems(prev =>
+      prev.map(item => item.id === id ? { ...item, count: Math.max(0, item.count - 1) } : item)
+    );
+  };
 
   const renderItem = ({ item }) => (
-    <View style={styles.itemRow}>
-      <Text style={styles.itemName}>{item.phrase}</Text>
-      <Text style={styles.counter}>{item.count}</Text>
-      {/* TODO: Add increment/decrement buttons here using ui/Button */}
+    <View style={styles.tasbihRow}>
+      <Text style={styles.tasbihPhrase}>{item.phrase}</Text>
+      <View style={styles.tasbihCounterRow}>
+        <Button onPress={() => decrement(item.id)}>-</Button>
+        <Text style={styles.tasbihCount}>{item.count}</Text>
+        <Button onPress={() => increment(item.id)}>+</Button>
+      </View>
     </View>
   );
 
   return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Tasbih Counter</Text>
-      <FlatList
-        data={items}
-        keyExtractor={(it) => it.id}
-        renderItem={renderItem}
-      />
-    </View>
+    <FlatList
+      data={items}
+      keyExtractor={item => item.id}
+      renderItem={renderItem}
+    />
   );
 }
