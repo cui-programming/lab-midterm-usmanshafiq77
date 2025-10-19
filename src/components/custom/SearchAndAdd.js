@@ -1,19 +1,53 @@
-import React from 'react';
-import { View } from 'react-native';
-import { styles } from '../../styles/styles';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from '../ui';
+import styles from '../../styles/styles';
 
-/**
- * Custom/SearchAndAdd
- * Students implement:
- *  - a text box to add a new zikr (phrase only, count starts at 0)
- *  - a search box to filter existing azkaar by phrase
- *  - use only components from 'ui' for inputs and buttons
- *  - lifting state up if needed
- */
-export default function SearchAndAdd() {
+export default function SearchAndAdd({ items, setItems }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [newPhrase, setNewPhrase] = useState('');
+
+  const filteredItems = items.filter(item =>
+    item.phrase.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const addPhrase = () => {
+    if (!newPhrase.trim()) return;
+
+    const newItem = {
+      id: Date.now().toString(),
+      phrase: newPhrase.trim(),
+      count: 0,
+    };
+    setItems(prev => [newItem, ...prev]);
+    setNewPhrase('');
+  };
+
   return (
-    <View style={styles.section}>
-      {/* TODO: Implement search and add UI here using ui/TextInput and ui/Button */}
+    <View style={{ marginVertical: 12 }}>
+      <Text style={{ fontWeight: '700', marginBottom: 6 }}>Search Azkaar</Text>
+      <TextInput
+        placeholder="Search..."
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+        style={{ marginBottom: 8 }}
+      />
+
+      <Text style={{ fontWeight: '700', marginBottom: 6 }}>Add New Azkaar</Text>
+      <TextInput
+        placeholder="New phrase..."
+        value={newPhrase}
+        onChangeText={setNewPhrase}
+        style={{ marginBottom: 8 }}
+      />
+      <Button onPress={addPhrase}>Add</Button>
+
+      <Text style={{ fontWeight: '700', marginVertical: 8 }}>Filtered Results</Text>
+      {filteredItems.map(item => (
+        <View key={item.id} style={styles.tasbihRow}>
+          <Text style={styles.tasbihPhrase}>{item.phrase}</Text>
+          <Text style={styles.tasbihCount}>{item.count}</Text>
+        </View>
+      ))}
     </View>
   );
 }
